@@ -1,6 +1,5 @@
 import os
 import csv
-from io import BytesIO
 from flask import Flask, render_template, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 
@@ -30,11 +29,8 @@ def upload_file():
     if not allowed_file(data_file.filename) or not allowed_file(template_file.filename):
         return jsonify({'error': 'Only CSV files are allowed'}), 400
     
-    data_content = data_file.read().decode('utf-8')
-    template_content = template_file.read().decode('utf-8')
-    
-    data_csv = list(csv.reader(BytesIO(data_content.encode())))
-    template_csv = list(csv.reader(BytesIO(template_content.encode())))
+    data_csv = list(csv.reader(data_file.stream.read().decode('utf-8').splitlines()))
+    template_csv = list(csv.reader(template_file.stream.read().decode('utf-8').splitlines()))
     
     return jsonify({
         'dataHeaders': data_csv[0],
@@ -49,13 +45,12 @@ def generate_mapped_csv():
     data_content = request.json['dataContent']
     template_headers = request.json['templateHeaders']
     
-    data_csv = list(csv.reader(BytesIO(data_content.encode())))
+    data_csv = list(csv.reader(data_content.splitlines()))
     data_headers = data_csv[0]
     data_rows = data_csv[1:]
     
-    output = BytesIO()
-    writer = csv.writer(output)
-    writer.writerow(template_headers)
+    output = []
+    output.append(template_headers)
     
     for row in data_rows:
         mapped_row = []
@@ -65,11 +60,11 @@ def generate_mapped_csv():
                 mapped_row.append(row[data_index])
             else:
                 mapped_row.append('')
-        writer.writerow(mapped_row)
+        output.append(mapped_row)
     
-    output.seek(0)
+    output_csv = '\n'.join([','.join(row) for row in output])
     return send_file(
-        output,
+        io.BytesIO(output_csv.encode()),
         mimetype='text/csv',
         as_attachment=True,
         download_name='mapped_data.csv'
