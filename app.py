@@ -40,14 +40,36 @@ def upload_file():
         'templatePreview': template_csv[1:6]
     })
 
+def apply_transform(value, transform, param):
+    if transform == 'uppercase':
+        return value.upper()
+    elif transform == 'lowercase':
+        return value.lower()
+    elif transform == 'trim':
+        return value.strip()
+    elif transform == 'multiply':
+        try:
+            return str(float(value) * float(param))
+        except ValueError:
+            return value
+    elif transform == 'add':
+        try:
+            return str(float(value) + float(param))
+        except ValueError:
+            return value
+    elif transform == 'concat':
+        return value + str(param)
+    else:
+        return value
+
 @app.route('/generate', methods=['POST'])
 def generate_mapped_csv():
     mapping = request.json['mapping']
     data_content = request.json['dataContent']
     template_headers = request.json['templateHeaders']
+    data_headers = request.json['dataHeaders']
     
     data_csv = list(csv.reader(data_content.splitlines()))
-    data_headers = data_csv[0]
     data_rows = data_csv[1:]
     
     output = []
@@ -57,8 +79,11 @@ def generate_mapped_csv():
         mapped_row = []
         for template_header in template_headers:
             if template_header in mapping:
-                data_index = data_headers.index(mapping[template_header])
-                mapped_row.append(row[data_index])
+                map_info = mapping[template_header]
+                data_index = data_headers.index(map_info['field'])
+                value = row[data_index]
+                transformed_value = apply_transform(value, map_info['transform'], map_info['param'])
+                mapped_row.append(transformed_value)
             else:
                 mapped_row.append('')
         output.append(mapped_row)
