@@ -7,22 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">CSV Mapping Tool for Sage Intacct</h1>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">CSV Mapping Tool for Sage Intacct</h1>
+            <div class="logo w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                SI
+            </div>
+        </div>
         
         <div class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Upload CSV Files</h2>
             <form id="uploadForm" class="space-y-4">
                 <div>
                     <label for="dataFile" class="block mb-2">Data CSV:</label>
-                    <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700">
                 </div>
                 <div>
                     <label for="templateFile" class="block mb-2">Intacct Template CSV:</label>
-                    <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700">
                 </div>
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Upload and Preview
                 </button>
             </form>
@@ -33,11 +38,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <h3 class="text-lg font-medium mb-2">Data CSV</h3>
-                    <div id="dataPreview" class="bg-white p-4 rounded shadow overflow-x-auto"></div>
+                    <div id="dataPreview" class="bg-gray-800 p-4 rounded shadow overflow-x-auto"></div>
                 </div>
                 <div>
                     <h3 class="text-lg font-medium mb-2">Intacct Template CSV</h3>
-                    <div id="templatePreview" class="bg-white p-4 rounded shadow overflow-x-auto"></div>
+                    <div id="templatePreview" class="bg-gray-800 p-4 rounded shadow overflow-x-auto"></div>
                 </div>
             </div>
         </div>
@@ -48,7 +53,7 @@
         </div>
 
         <div id="downloadSection" class="hidden">
-            <button id="generateBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <button id="generateBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Generate and Download Mapped CSV
             </button>
         </div>
