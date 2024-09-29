@@ -40,26 +40,10 @@ def upload_file():
         'templatePreview': template_csv[1:6]
     })
 
-def apply_transform(value, transform, param):
-    if transform == 'uppercase':
-        return value.upper()
-    elif transform == 'lowercase':
-        return value.lower()
-    elif transform == 'trim':
-        return value.strip()
-    elif transform == 'multiply':
-        try:
-            return str(float(value) * float(param))
-        except ValueError:
-            return value
-    elif transform == 'add':
-        try:
-            return str(float(value) + float(param))
-        except ValueError:
-            return value
-    elif transform == 'concat':
-        return value + str(param)
-    else:
+def format_decimal(value):
+    try:
+        return f"{float(value):.2f}"
+    except ValueError:
         return value
 
 @app.route('/generate', methods=['POST'])
@@ -82,8 +66,9 @@ def generate_mapped_csv():
                 map_info = mapping[template_header]
                 data_index = data_headers.index(map_info['field'])
                 value = row[data_index]
-                transformed_value = apply_transform(value, map_info['transform'], map_info['param'])
-                mapped_row.append(transformed_value)
+                if map_info['format']:
+                    value = format_decimal(value)
+                mapped_row.append(value)
             else:
                 mapped_row.append('')
         output.append(mapped_row)

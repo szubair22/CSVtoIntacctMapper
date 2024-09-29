@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mappingSection.classList.remove('hidden');
             downloadSection.classList.remove('hidden');
 
-            // Store data content and headers for later use
             dataContent = data.dataPreview.map(row => row.join(',')).join('\n');
             templateHeaders = data.templateHeaders;
             dataHeaders = data.dataHeaders;
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.className = 'mb-4';
             div.innerHTML = `
                 <label for="${templateHeader}" class="block mb-2 font-bold">${templateHeader}:</label>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="${templateHeader}_field" class="block mb-1">Field:</label>
                         <select id="${templateHeader}_field" name="${templateHeader}_field" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -82,20 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </select>
                     </div>
                     <div>
-                        <label for="${templateHeader}_transform" class="block mb-1">Transform:</label>
-                        <select id="${templateHeader}_transform" name="${templateHeader}_transform" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">None</option>
-                            <option value="uppercase">Uppercase</option>
-                            <option value="lowercase">Lowercase</option>
-                            <option value="trim">Trim</option>
-                            <option value="multiply">Multiply</option>
-                            <option value="add">Add</option>
-                            <option value="concat">Concatenate</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="${templateHeader}_param" class="block mb-1">Parameter:</label>
-                        <input type="text" id="${templateHeader}_param" name="${templateHeader}_param" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter parameter">
+                        <label for="${templateHeader}_format" class="block mb-1">
+                            <input type="checkbox" id="${templateHeader}_format" name="${templateHeader}_format" class="mr-2">
+                            Format as decimal (up to 2 places)
+                        </label>
                     </div>
                 </div>
             `;
@@ -109,14 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         templateHeaders.forEach(header => {
             const field = formData.get(`${header}_field`);
-            const transform = formData.get(`${header}_transform`);
-            const param = formData.get(`${header}_param`);
+            const format = formData.get(`${header}_format`) === 'on';
             
             if (field) {
                 mapping[header] = {
                     field: field,
-                    transform: transform || null,
-                    param: param || null
+                    format: format
                 };
             }
         });
