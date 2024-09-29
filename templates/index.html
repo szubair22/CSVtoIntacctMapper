@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Mapping Tool for Sage Intacct</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">CSV Mapping Tool for Sage Intacct</h1>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Upload CSV Files</h2>
+            <form id="uploadForm" class="space-y-4">
+                <div>
+                    <label for="dataFile" class="block mb-2">Data CSV:</label>
+                    <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                </div>
+                <div>
+                    <label for="templateFile" class="block mb-2">Intacct Template CSV:</label>
+                    <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Upload and Preview
+                </button>
+            </form>
+        </div>
+
+        <div id="previewSection" class="hidden mb-8">
+            <h2 class="text-xl font-semibold mb-4">CSV Preview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-lg font-medium mb-2">Data CSV</h3>
+                    <div id="dataPreview" class="bg-white p-4 rounded shadow overflow-x-auto"></div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-2">Intacct Template CSV</h3>
+                    <div id="templatePreview" class="bg-white p-4 rounded shadow overflow-x-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mappingSection" class="hidden mb-8">
+            <h2 class="text-xl font-semibold mb-4">Field Mapping</h2>
+            <form id="mappingForm" class="space-y-4"></form>
+        </div>
+
+        <div id="downloadSection" class="hidden">
+            <button id="generateBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Generate and Download Mapped CSV
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
