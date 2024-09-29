@@ -1,6 +1,6 @@
 import os
 import csv
-import io
+from io import BytesIO
 from flask import Flask, render_template, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 
@@ -33,8 +33,8 @@ def upload_file():
     data_content = data_file.read().decode('utf-8')
     template_content = template_file.read().decode('utf-8')
     
-    data_csv = list(csv.reader(io.StringIO(data_content)))
-    template_csv = list(csv.reader(io.StringIO(template_content)))
+    data_csv = list(csv.reader(BytesIO(data_content.encode())))
+    template_csv = list(csv.reader(BytesIO(template_content.encode())))
     
     return jsonify({
         'dataHeaders': data_csv[0],
@@ -49,11 +49,11 @@ def generate_mapped_csv():
     data_content = request.json['dataContent']
     template_headers = request.json['templateHeaders']
     
-    data_csv = list(csv.reader(io.StringIO(data_content)))
+    data_csv = list(csv.reader(BytesIO(data_content.encode())))
     data_headers = data_csv[0]
     data_rows = data_csv[1:]
     
-    output = io.StringIO()
+    output = BytesIO()
     writer = csv.writer(output)
     writer.writerow(template_headers)
     
