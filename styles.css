@@ -20,7 +20,7 @@ body {
 }
 
 .shadow-md {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .rounded-lg {
@@ -28,31 +28,31 @@ body {
 }
 
 h1 {
-    font-size: 2.25rem; /* Increased from 1.875rem */
-    font-weight: 600;
+    font-size: 2rem; /* Increased from 1.875rem */
+    font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
 h2 {
     font-size: 1.5rem; /* Increased from 1.25rem */
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
 }
 
 .subtitle {
     color: #6b7280;
     margin-bottom: 2rem;
-    font-size: 1.125rem; /* Added font size for subtitle */
+    font-size: 1rem; /* Added font size for subtitle */
 }
 
 .file-input-label {
     display: inline-block;
-    padding: 0.625rem 1.25rem; /* Increased padding */
+    padding: 0.5rem 1rem; /* Increased padding */
     background-color: #f3f4f6;
     color: #111827;
     border-radius: 0.25rem;
     font-weight: 600;
-    font-size: 1rem; /* Added font size */
+    font-size: 0.875rem; /* Added font size */
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -62,9 +62,9 @@ h2 {
 }
 
 .btn {
-    padding: 0.875rem 1.25rem; /* Increased padding */
+    padding: 0.75rem 1rem; /* Increased padding */
     font-weight: 600;
-    font-size: 1.125rem; /* Increased font size */
+    font-size: 0.875rem; /* Increased font size */
     border-radius: 0.25rem;
     transition: background-color 0.2s;
     width: 100%;
@@ -79,7 +79,7 @@ h2 {
 }
 
 .btn-black:hover {
-    background-color: #374151;
+    background-color: #1f2937;
 }
 
 ol {
@@ -88,7 +88,7 @@ ol {
 }
 
 ol li {
-    margin-bottom: 1.5rem; /* Increased from 1rem */
+    margin-bottom: 1rem; /* Increased from 1.5rem */
     font-size: 1.125rem; /* Added font size for list items */
 }
 
@@ -96,13 +96,14 @@ ol li {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.75rem; /* Increased from 1.5rem */
-    height: 1.75rem; /* Increased from 1.5rem */
+    width: 1.5rem; /* Increased from 1.75rem */
+    height: 1.5rem; /* Increased from 1.75rem */
     background-color: #111827;
     color: white;
     border-radius: 50%;
-    margin-right: 0.75rem; /* Increased from 0.5rem */
-    font-size: 1rem; /* Increased from 0.875rem */
+    margin-right: 0.5rem; /* Increased from 0.75rem */
+    font-size: 0.875rem; /* Increased from 1rem */
+    font-weight: 600;
 }
 
 .file-input {
@@ -119,4 +120,13 @@ ol li {
 .file-name {
     margin-left: 0.5rem;
     color: #6b7280;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+ul li {
+    margin-bottom: 0.5rem;
 }

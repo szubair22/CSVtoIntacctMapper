@@ -11,16 +11,16 @@
     <div class="container">
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="text-center mb-8">
-                <h1>CSV Mapping Tool for Sage Intacct</h1>
-                <p class="subtitle">Save time and reduce errors by automating the mapping process.</p>
+                <h1 class="text-3xl font-bold">CSV Mapping Tool for Sage Intacct</h1>
+                <p class="subtitle text-lg">Save time and reduce errors by automating the mapping process.</p>
             </div>
             
             <div class="mb-8">
-                <h2>How It Works</h2>
-                <ol>
+                <h2 class="text-2xl font-bold mb-4">How It Works</h2>
+                <ol class="space-y-4">
                     <li>
                         <span class="number-circle">1</span>
-                        <strong>Upload Your Files:</strong>
+                        <strong class="text-lg">Upload Your Files:</strong>
                         <ul class="list-disc list-inside ml-6 mt-2">
                             <li>First, upload your data CSV.</li>
                             <li>Then, upload your Intacct Template CSV.</li>
@@ -28,7 +28,7 @@
                     </li>
                     <li>
                         <span class="number-circle">2</span>
-                        <strong>Preview and Map:</strong>
+                        <strong class="text-lg">Preview and Map:</strong>
                         <ul class="list-disc list-inside ml-6 mt-2">
                             <li>Match the data fields from your file to the Intacct format.</li>
                             <li>Review the mappings before finalizing.</li>
@@ -38,10 +38,10 @@
             </div>
 
             <div class="mb-8">
-                <h2>Upload CSV Files</h2>
+                <h2 class="text-2xl font-bold mb-4">Upload CSV Files</h2>
                 <form id="uploadForm" class="space-y-4">
                     <div class="file-input">
-                        <label for="dataFile">Data CSV:</label>
+                        <label for="dataFile" class="block font-bold mb-2">Data CSV:</label>
                         <div class="flex items-center">
                             <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
                             <label for="dataFile" class="file-input-label">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="file-input">
-                        <label for="templateFile">Intacct Template CSV:</label>
+                        <label for="templateFile" class="block font-bold mb-2">Intacct Template CSV:</label>
                         <div class="flex items-center">
                             <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
                             <label for="templateFile" class="file-input-label">
