@@ -1,9 +1,11 @@
 /* Custom styles for dark theme */
 body {
+    font-family: Arial, sans-serif;
     background-color: white;
-    color: #1f2937;
+    color: #333;
     background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
     background-size: 20px 20px;
+    line-height: 1.5;
 }
 
 .container {
@@ -27,12 +29,19 @@ body {
 
 h1 {
     font-size: 1.875rem;
-    font-weight: 700;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 h2 {
     font-size: 1.25rem;
     font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 2rem;
 }
 
 .file-input-label {
@@ -51,10 +60,14 @@ h2 {
 }
 
 .btn {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
     font-weight: 600;
     border-radius: 0.25rem;
     transition: background-color 0.2s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-black {
@@ -71,31 +84,34 @@ ol {
     padding-left: 0;
 }
 
-ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
+ol li {
+    margin-bottom: 1rem;
 }
 
-.mb-8 {
-    margin-bottom: 2rem;
+.number-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #111827;
+    color: white;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
 }
 
-.space-y-4 > * + * {
-    margin-top: 1rem;
+.file-input {
+    margin-bottom: 1rem;
 }
 
-/* Remove unnecessary styles */
-table, th, tr {
-    background-color: transparent;
-    color: inherit;
+.file-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
-select, input[type="text"], input[type="file"] {
-    background-color: white;
-    color: black;
-    border-color: #d1d5db;
-}
-
-select:focus, input[type="text"]:focus, input[type="file"]:focus {
-    border-color: #3b82f6;
+.file-name {
+    margin-left: 0.5rem;
+    color: #6b7280;
 }
