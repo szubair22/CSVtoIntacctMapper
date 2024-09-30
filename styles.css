@@ -48,9 +48,9 @@ h2 {
 .file-input-label {
     display: inline-block;
     padding: 0.5rem 1rem; /* Increased padding */
-    background-color: #f3f4f6;
-    color: #111827;
-    border-radius: 0.25rem;
+    background-color: #111827;
+    color: white;
+    border-radius: 0.25rem 0 0 0.25rem;
     font-weight: 600;
     font-size: 0.875rem; /* Added font size */
     cursor: pointer;
@@ -58,7 +58,22 @@ h2 {
 }
 
 .file-input-label:hover {
-    background-color: #e5e7eb;
+    background-color: #1f2937;
+}
+
+.file-name {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.copy-btn {
+    border-left: 1px solid #e5e7eb;
+    color: #6b7280;
+    transition: background-color 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: #f3f4f6;
 }
 
 .btn {
@@ -114,7 +129,7 @@ ol li {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    font-size: 1.125rem; /* Added font size for file input labels */
+    font-size: 1rem;
 }
 
 .file-name {
