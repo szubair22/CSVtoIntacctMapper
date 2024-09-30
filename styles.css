@@ -1,15 +1,16 @@
 /* Custom styles for dark theme */
 body {
-    background-color: #f3f4f6;
+    background-color: white;
     color: #1f2937;
-    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
     background-size: 20px 20px;
 }
 
 .container {
-    max-width: 64rem;
+    max-width: 42rem;
     margin-left: auto;
     margin-right: auto;
+    padding: 2rem 1rem;
 }
 
 table {
@@ -50,7 +51,7 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 }
 
 .shadow-md {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .rounded-lg {
@@ -61,13 +62,69 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 .file-input-label {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: #e5e7eb;
-    color: #4b5563;
+    background-color: #f3f4f6;
+    color: #111827;
     border-radius: 0.25rem;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 .file-input-label:hover {
-    background-color: #d1d5db;
+    background-color: #e5e7eb;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+}
+
+.btn-black {
+    background-color: #111827;
+    color: white;
+}
+
+.btn-black:hover {
+    background-color: #374151;
+}
+
+ol {
+    list-style-type: none;
+    counter-reset: item;
+    padding-left: 0;
+}
+
+ol > li {
+    counter-increment: item;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+ol > li::before {
+    content: counter(item);
+    background-color: #111827;
+    color: white;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
 }

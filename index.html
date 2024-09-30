@@ -11,23 +11,23 @@
     <div class="container">
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="text-center mb-8">
-                <h1>CSV Mapping Tool for Sage Intacct</h1>
+                <h1 class="text-3xl font-bold mb-2">CSV Mapping Tool for Sage Intacct</h1>
                 <p class="text-gray-600">Save time and reduce errors by automating the mapping process.</p>
             </div>
             
             <div class="mb-8">
-                <h2>How It Works</h2>
-                <ol class="space-y-4">
+                <h2 class="text-2xl font-semibold mb-4">How It Works</h2>
+                <ol class="list-decimal list-inside space-y-4">
                     <li>
-                        <strong>Upload Your Files:</strong>
-                        <ul class="mt-2">
+                        <span class="font-semibold">Upload Your Files:</span>
+                        <ul class="list-disc list-inside ml-6 mt-2">
                             <li>First, upload your data CSV.</li>
                             <li>Then, upload your Intacct Template CSV.</li>
                         </ul>
                     </li>
                     <li>
-                        <strong>Preview and Map:</strong>
-                        <ul class="mt-2">
+                        <span class="font-semibold">Preview and Map:</span>
+                        <ul class="list-disc list-inside ml-6 mt-2">
                             <li>Match the data fields from your file to the Intacct format.</li>
                             <li>Review the mappings before finalizing.</li>
                         </ul>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="mb-8">
-                <h2>Upload CSV Files</h2>
+                <h2 class="text-2xl font-semibold mb-4">Upload CSV Files</h2>
                 <form id="uploadForm" class="space-y-4">
                     <div>
                         <label for="dataFile" class="block mb-2">Data CSV:</label>
@@ -44,6 +44,11 @@
                             <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
                             <label for="dataFile" class="file-input-label">Choose File</label>
                             <span id="dataFileName" class="ml-3 text-gray-600">No file chosen</span>
+                            <button type="button" class="ml-2 text-gray-400 hover:text-gray-500">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <div>
@@ -52,9 +57,14 @@
                             <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
                             <label for="templateFile" class="file-input-label">Choose File</label>
                             <span id="templateFileName" class="ml-3 text-gray-600">No file chosen</span>
+                            <button type="button" class="ml-2 text-gray-400 hover:text-gray-500">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-black w-full">
+                    <button type="submit" class="btn btn-black w-full flex items-center justify-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
