@@ -1,0 +1,43 @@
+/* Custom styles for dark theme */
+body {
+    background-color: #1a202c;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    background-color: #2d3748;
+    color: #e2e8f0;
+}
+
+th {
+    background-color: #4a5568;
+}
+
+tr:nth-child(even) {
+    background-color: #2d3748;
+}
+
+tr:nth-child(odd) {
+    background-color: #374151;
+}
+
+select, input[type="text"], input[type="file"] {
+    background-color: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
+}
+
+select:focus, input[type="text"]:focus, input[type="file"]:focus {
+    border-color: #63b3ed;
+}
+
+/* Ensure text is visible on blue buttons */
+.bg-blue-600, .bg-blue-700 {
+    color: #ffffff;
+}
