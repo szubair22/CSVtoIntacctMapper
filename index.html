@@ -16,33 +16,41 @@
             </div>
             
             <div class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">How It Works</h2>
-                <ol class="list-decimal list-inside space-y-4">
-                    <li>
-                        <span class="font-semibold">Upload Your Files:</span>
-                        <ul class="list-disc list-inside ml-6 mt-2">
-                            <li>First, upload your data CSV.</li>
-                            <li>Then, upload your Intacct Template CSV.</li>
-                        </ul>
+                <h2 class="text-xl font-semibold mb-4">How It Works</h2>
+                <ol class="list-none space-y-4">
+                    <li class="flex items-start">
+                        <span class="mr-2 bg-black text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">1</span>
+                        <div>
+                            <span class="font-semibold">Upload Your Files:</span>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>First, upload your data CSV.</li>
+                                <li>Then, upload your Intacct Template CSV.</li>
+                            </ul>
+                        </div>
                     </li>
-                    <li>
-                        <span class="font-semibold">Preview and Map:</span>
-                        <ul class="list-disc list-inside ml-6 mt-2">
-                            <li>Match the data fields from your file to the Intacct format.</li>
-                            <li>Review the mappings before finalizing.</li>
-                        </ul>
+                    <li class="flex items-start">
+                        <span class="mr-2 bg-black text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">2</span>
+                        <div>
+                            <span class="font-semibold">Preview and Map:</span>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>Match the data fields from your file to the Intacct format.</li>
+                                <li>Review the mappings before finalizing.</li>
+                            </ul>
+                        </div>
                     </li>
                 </ol>
             </div>
 
             <div class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Upload CSV Files</h2>
+                <h2 class="text-xl font-semibold mb-4">Upload CSV Files</h2>
                 <form id="uploadForm" class="space-y-4">
                     <div>
                         <label for="dataFile" class="block mb-2">Data CSV:</label>
                         <div class="flex items-center">
                             <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
-                            <label for="dataFile" class="file-input-label">Choose File</label>
+                            <label for="dataFile" class="file-input-label bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center">
+                                <span>Choose File</span>
+                            </label>
                             <span id="dataFileName" class="ml-3 text-gray-600">No file chosen</span>
                             <button type="button" class="ml-2 text-gray-400 hover:text-gray-500">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +63,9 @@
                         <label for="templateFile" class="block mb-2">Intacct Template CSV:</label>
                         <div class="flex items-center">
                             <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
-                            <label for="templateFile" class="file-input-label">Choose File</label>
+                            <label for="templateFile" class="file-input-label bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded inline-flex items-center">
+                                <span>Choose File</span>
+                            </label>
                             <span id="templateFileName" class="ml-3 text-gray-600">No file chosen</span>
                             <button type="button" class="ml-2 text-gray-400 hover:text-gray-500">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +74,7 @@
                             </button>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-black w-full flex items-center justify-center">
+                    <button type="submit" class="btn btn-black w-full flex items-center justify-center bg-black text-white py-2 px-4 rounded hover:bg-gray-800">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
@@ -72,8 +82,6 @@
                     </button>
                 </form>
             </div>
-
-            <!-- Keep the existing preview, mapping, and download sections -->
         </div>
     </div>
 

@@ -13,39 +13,6 @@ body {
     padding: 2rem 1rem;
 }
 
-table {
-    background-color: #2d3748;
-    color: #e2e8f0;
-}
-
-th {
-    background-color: #4a5568;
-}
-
-tr:nth-child(even) {
-    background-color: #2d3748;
-}
-
-tr:nth-child(odd) {
-    background-color: #374151;
-}
-
-select, input[type="text"], input[type="file"] {
-    background-color: white;
-    color: black;
-    border-color: gainsboro;
-}
-
-select:focus, input[type="text"]:focus, input[type="file"]:focus {
-    border-color: #63b3ed;
-}
-
-/* Ensure text is visible on blue buttons */
-.bg-blue-600, .bg-blue-700 {
-    color: #ffffff;
-}
-
-/* New styles for the updated design */
 .bg-white {
     background-color: white;
 }
@@ -58,7 +25,16 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
     border-radius: 0.5rem;
 }
 
-/* Custom file input styles */
+h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
 .file-input-label {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -92,28 +68,7 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 
 ol {
     list-style-type: none;
-    counter-reset: item;
     padding-left: 0;
-}
-
-ol > li {
-    counter-increment: item;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: flex-start;
-}
-
-ol > li::before {
-    content: counter(item);
-    background-color: #111827;
-    color: white;
-    font-weight: bold;
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    margin-right: 0.5rem;
-    font-size: 0.875rem;
-    min-width: 1.5rem;
-    text-align: center;
 }
 
 ul {
@@ -127,4 +82,20 @@ ul {
 
 .space-y-4 > * + * {
     margin-top: 1rem;
+}
+
+/* Remove unnecessary styles */
+table, th, tr {
+    background-color: transparent;
+    color: inherit;
+}
+
+select, input[type="text"], input[type="file"] {
+    background-color: white;
+    color: black;
+    border-color: #d1d5db;
+}
+
+select:focus, input[type="text"]:focus, input[type="file"]:focus {
+    border-color: #3b82f6;
 }
