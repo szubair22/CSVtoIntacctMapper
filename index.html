@@ -10,19 +10,41 @@
 <body class="bg-white text-black">
     <div class="container mx-auto px-4 py-8 max-w-4xl">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold">CSV Mapping Tool for Sage Intacct</h1>
+            <h1 class="text-3xl font-bold mb-2">CSV Mapping Tool for Sage Intacct</h1>
+            <p class="text-xl text-gray-600">Save time and reduce errors by automating the mapping process.</p>
         </div>
         
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">How It Works</h2>
+            <ol class="list-decimal list-inside space-y-4">
+                <li>
+                    <strong>Upload Your Files:</strong>
+                    <ul class="list-disc list-inside ml-6 mt-2">
+                        <li>First, upload your data CSV.</li>
+                        <li>Then, upload your Intacct Template CSV.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Preview and Map:</strong>
+                    <ul class="list-disc list-inside ml-6 mt-2">
+                        <li>Match the data fields from your file to the Intacct format.</li>
+                        <li>Review the mappings before finalizing.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="mt-4">Once your files are uploaded and mapped, you're ready to seamlessly import them into Sage Intacct!</p>
+        </div>
+
         <div class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Upload CSV Files</h2>
             <form id="uploadForm" class="space-y-4">
                 <div>
                     <label for="dataFile" class="block mb-2">Data CSV:</label>
-                    <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800">
+                    <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 bg-gray-100">
                 </div>
                 <div>
                     <label for="templateFile" class="block mb-2">Intacct Template CSV:</label>
-                    <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800">
+                    <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 bg-gray-100">
                 </div>
                 <button type="submit" class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">
                     Upload and Preview
