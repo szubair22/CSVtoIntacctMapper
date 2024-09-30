@@ -1,7 +1,9 @@
 /* Custom styles for dark theme */
 body {
-    background-color: #1a202c;
-    color: #ffffff;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
 .container {
@@ -40,4 +42,32 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 /* Ensure text is visible on blue buttons */
 .bg-blue-600, .bg-blue-700 {
     color: #ffffff;
+}
+
+/* New styles for the updated design */
+.bg-white {
+    background-color: white;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+/* Custom file input styles */
+.file-input-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.file-input-label:hover {
+    background-color: #d1d5db;
 }
