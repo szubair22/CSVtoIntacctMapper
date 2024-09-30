@@ -1,43 +1,118 @@
 /* Custom styles for dark theme */
 body {
-    background-color: #1a202c;
-    color: #ffffff;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
 }
 
 .container {
-    max-width: 64rem;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
 }
 
-table {
-    background-color: #2d3748;
-    color: #e2e8f0;
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
 }
 
-th {
-    background-color: #4a5568;
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 16px;
 }
 
-tr:nth-child(even) {
-    background-color: #2d3748;
+h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
-tr:nth-child(odd) {
-    background-color: #374151;
+.how-it-works {
+    margin-bottom: 40px;
 }
 
-select, input[type="text"], input[type="file"] {
-    background-color: #2d3748;
-    color: #e2e8f0;
-    border-color: #4a5568;
+.how-it-works ol {
+    padding-left: 20px;
 }
 
-select:focus, input[type="text"]:focus, input[type="file"]:focus {
-    border-color: #63b3ed;
+.how-it-works li {
+    margin-bottom: 15px;
 }
 
-/* Ensure text is visible on blue buttons */
-.bg-blue-600, .bg-blue-700 {
-    color: #ffffff;
+.how-it-works ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.file-input {
+    margin-bottom: 20px;
+}
+
+.file-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fff;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.file-name {
+    flex-grow: 1;
+    padding: 5px;
+    color: #666;
+}
+
+.choose-file-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#upload-btn:hover {
+    background-color: #444;
+}
+
+#upload-btn img {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
 }
