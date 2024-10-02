@@ -42,21 +42,17 @@
                     <div class="file-input">
                         <label for="dataFile" class="block font-bold mb-2">Data CSV:</label>
                         <div class="flex items-center border border-gray-300 rounded-md">
+                            <label for="dataFile" class="file-input-label">Choose File</label>
                             <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
-                            <label for="dataFile" class="file-input-label">
-                                Choose File
-                            </label>
-                            <span id="dataFileName" class="file-name flex-grow px-3">No file chosen</span>
+                            <input type="text" id="dataFileName" class="file-name flex-grow px-3 border-0" value="No file chosen" disabled>
                         </div>
                     </div>
                     <div class="file-input">
                         <label for="templateFile" class="block font-bold mb-2">Intacct Template CSV:</label>
                         <div class="flex items-center border border-gray-300 rounded-md">
+                            <label for="templateFile" class="file-input-label">Choose File</label>
                             <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
-                            <label for="templateFile" class="file-input-label"> <!-- Fixed label typo -->
-                                Choose File
-                            </label>
-                            <span id="templateFileName" class="file-name flex-grow px-3">No file chosen</span>
+                            <input type="text" id="templateFileName" class="file-name flex-grow px-3 border-0" value="No file chosen" disabled>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-black">

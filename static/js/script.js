@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update the file name display when a file is selected
     dataFileInput.addEventListener('change', () => {
-        dataFileNameDisplay.textContent = dataFileInput.files.length > 0 ? dataFileInput.files[0].name : 'No file chosen';
+        dataFileNameDisplay.value = dataFileInput.files.length > 0 ? dataFileInput.files[0].name : 'No file chosen';
     });
 
     templateFileInput.addEventListener('change', () => {
-        templateFileNameDisplay.textContent = templateFileInput.files.length > 0 ? templateFileInput.files[0].name : 'No file chosen';
+        templateFileNameDisplay.value = templateFileInput.files.length > 0 ? templateFileInput.files[0].name : 'No file chosen';
     });
 
     uploadForm.addEventListener('submit', async (e) => {
