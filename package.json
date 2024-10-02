@@ -4,9 +4,17 @@
   "description": "This web application helps Sage Intacct users easily map their data to Sage Intacct's required format. The tool allows users to upload their data CSV and an Intacct template CSV, preview the contents, and generate a mapped CSV file that conforms to Intacct's specifications.",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./styles.css -o ./output.css --watch",
+    "build-css": "postcss styles.css -o compiled.css",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.13"
+  }
 }
