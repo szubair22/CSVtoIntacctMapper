@@ -15,22 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let templateHeaders = [];
     let dataHeaders = [];
 
-    // Update file name display when file is selected
-    dataFileInput.addEventListener('change', function() {
-        if (dataFileInput.files.length > 0) {
-            dataFileName.value = dataFileInput.files[0].name;
-        } else {
-            dataFileName.value = "No file chosen";
-        }
+    // Add event listeners for file input changes
+    dataFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, dataFileName);
     });
 
-    templateFileInput.addEventListener('change', function() {
-        if (templateFileInput.files.length > 0) {
-            templateFileName.value = templateFileInput.files[0].name;
-        } else {
-            templateFileName.value = "No file chosen";
-        }
+    templateFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, templateFileName);
     });
+
+    // Function to update file name display
+    function updateFileName(fileInput, fileNameElement) {
+        if (fileInput.files.length > 0) {
+            fileNameElement.textContent = fileInput.files[0].name;
+        } else {
+            fileNameElement.textContent = 'No file chosen';
+        }
+    }
 
     uploadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
