@@ -17,17 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update the file name display when a file is selected
     dataFileInput.addEventListener('change', () => {
-        dataFileNameDisplay.value = dataFileInput.files.length > 0 ? dataFileInput.files[0].name : 'No file chosen';
+        dataFileNameDisplay.textContent = dataFileInput.files[0] ? dataFileInput.files[0].name : 'No file chosen';
     });
 
     templateFileInput.addEventListener('change', () => {
-        templateFileNameDisplay.value = templateFileInput.files.length > 0 ? templateFileInput.files[0].name : 'No file chosen';
+        templateFileNameDisplay.textContent = templateFileInput.files[0] ? templateFileInput.files[0].name : 'No file chosen';
     });
 
     uploadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const dataFile = dataFileInput.files[0];
-        const templateFile = templateFileInput.files[0];
+        const dataFile = document.getElementById('dataFile').files[0];
+        const templateFile = document.getElementById('templateFile').files[0];
 
         if (!dataFile || !templateFile) {
             alert('Please select both CSV files.');
