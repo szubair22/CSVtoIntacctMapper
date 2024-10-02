@@ -1,33 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
+    const dataFileInput = document.getElementById('dataFile');
+    const templateFileInput = document.getElementById('templateFile');
+    const dataFileNameInput = document.getElementById('dataFileName');
+    const templateFileNameInput = document.getElementById('templateFileName');
     const previewSection = document.getElementById('previewSection');
     const mappingSection = document.getElementById('mappingSection');
     const mappingForm = document.getElementById('mappingForm');
     const downloadSection = document.getElementById('downloadSection');
     const generateBtn = document.getElementById('generateBtn');
 
-    const dataFileInput = document.getElementById('dataFile');
-    const templateFileInput = document.getElementById('templateFile');
-    const dataFileNameDisplay = document.getElementById('dataFileName');
-    const templateFileNameDisplay = document.getElementById('templateFileName');
-
     let dataContent = '';
     let templateHeaders = [];
     let dataHeaders = [];
 
-    // Update the file name display when a file is selected
+    // Event listener to display the file name for the Data CSV
     dataFileInput.addEventListener('change', () => {
-        dataFileNameDisplay.textContent = dataFileInput.files[0] ? dataFileInput.files[0].name : 'No file chosen';
+        const dataFile = dataFileInput.files[0];
+        dataFileNameInput.value = dataFile ? dataFile.name : 'No file chosen';
     });
 
+    // Event listener to display the file name for the Intacct Template CSV
     templateFileInput.addEventListener('change', () => {
-        templateFileNameDisplay.textContent = templateFileInput.files[0] ? templateFileInput.files[0].name : 'No file chosen';
+        const templateFile = templateFileInput.files[0];
+        templateFileNameInput.value = templateFile ? templateFile.name : 'No file chosen';
     });
 
     uploadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const dataFile = document.getElementById('dataFile').files[0];
-        const templateFile = document.getElementById('templateFile').files[0];
+        const dataFile = dataFileInput.files[0];
+        const templateFile = templateFileInput.files[0];
 
         if (!dataFile || !templateFile) {
             alert('Please select both CSV files.');
