@@ -1,29 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
-    const dataFileInput = document.getElementById('dataFile');
-    const templateFileInput = document.getElementById('templateFile');
-    const dataFileNameInput = document.getElementById('dataFileName');
-    const templateFileNameInput = document.getElementById('templateFileName');
     const previewSection = document.getElementById('previewSection');
     const mappingSection = document.getElementById('mappingSection');
     const mappingForm = document.getElementById('mappingForm');
     const downloadSection = document.getElementById('downloadSection');
     const generateBtn = document.getElementById('generateBtn');
 
+    const dataFileInput = document.getElementById('dataFile');
+    const templateFileInput = document.getElementById('templateFile');
+    const dataFileName = document.getElementById('dataFileName');
+    const templateFileName = document.getElementById('templateFileName');
+
     let dataContent = '';
     let templateHeaders = [];
     let dataHeaders = [];
 
-    // Event listener to display the file name for the Data CSV
-    dataFileInput.addEventListener('change', () => {
-        const dataFile = dataFileInput.files[0];
-        dataFileNameInput.value = dataFile ? dataFile.name : 'No file chosen';
+    // Update file name display when file is selected
+    dataFileInput.addEventListener('change', function() {
+        if (dataFileInput.files.length > 0) {
+            dataFileName.value = dataFileInput.files[0].name;
+        } else {
+            dataFileName.value = "No file chosen";
+        }
     });
 
-    // Event listener to display the file name for the Intacct Template CSV
-    templateFileInput.addEventListener('change', () => {
-        const templateFile = templateFileInput.files[0];
-        templateFileNameInput.value = templateFile ? templateFile.name : 'No file chosen';
+    templateFileInput.addEventListener('change', function() {
+        if (templateFileInput.files.length > 0) {
+            templateFileName.value = templateFileInput.files[0].name;
+        } else {
+            templateFileName.value = "No file chosen";
+        }
     });
 
     uploadForm.addEventListener('submit', async (e) => {
