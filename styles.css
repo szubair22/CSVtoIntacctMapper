@@ -32,13 +32,13 @@ body {
 }
 
 h1 {
-    font-size: 2rem; /* Increased from 1.875rem */
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 
 h2 {
-    font-size: 1.5rem; /* Increased from 1.25rem */
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
 }
@@ -46,11 +46,12 @@ h2 {
 .subtitle {
     color: #6b7280;
     margin-bottom: 2rem;
-    font-size: 1rem; /* Added font size for subtitle */
+    font-size: 1rem;
 }
 
+/* Styles for file input */
 .file-input-label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem 1rem;
@@ -61,7 +62,7 @@ h2 {
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.2s;
-    height: 100%; /* Make sure the label takes full height of its container */
+    height: 100%;
 }
 
 .file-input-label:hover {
@@ -74,26 +75,18 @@ h2 {
     display: flex;
     align-items: center;
     padding-left: 0.5rem;
+    border-left: 1px solid #d1d5db;
 }
 
-.copy-btn {
-    border-left: 1px solid #e5e7eb;
-    color: #6b7280;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Make sure the button takes full height of its container */
+.flex.items-center.border {
+    height: 2.5rem;
 }
 
-.copy-btn:hover {
-    background-color: #f3f4f6;
-}
-
+/* Button styling */
 .btn {
-    padding: 0.75rem 1rem; /* Increased padding */
+    padding: 0.75rem 1rem;
     font-weight: 600;
-    font-size: 0.875rem; /* Increased font size */
+    font-size: 0.875rem;
     border-radius: 0.25rem;
     transition: background-color 0.2s;
     width: 100%;
@@ -109,58 +102,4 @@ h2 {
 
 .btn-black:hover {
     background-color: #1f2937;
-}
-
-ol {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-ol li {
-    margin-bottom: 1rem; /* Increased from 1.5rem */
-    font-size: 1.125rem; /* Added font size for list items */
-}
-
-.number-circle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem; /* Increased from 1.75rem */
-    height: 1.5rem; /* Increased from 1.75rem */
-    background-color: #111827;
-    color: white;
-    border-radius: 50%;
-    margin-right: 0.5rem; /* Increased from 0.75rem */
-    font-size: 0.875rem; /* Increased from 1rem */
-    font-weight: 600;
-}
-
-.file-input {
-    margin-bottom: 1rem;
-}
-
-.file-input label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.file-name {
-    margin-left: 0.5rem;
-    color: #6b7280;
-}
-
-ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-}
-
-ul li {
-    margin-bottom: 0.5rem;
-}
-
-/* Add this new style for the file input container */
-.flex.items-center.border {
-    height: 2.5rem; /* Set a fixed height for the container */
 }
