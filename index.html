@@ -15,25 +15,49 @@
             </div>
             
             <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">How It Works</h2>
+                <ol class="space-y-4">
+                    <li>
+                        <span class="number-circle">1</span>
+                        <strong class="text-lg">Upload Your Files:</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>First, upload your data CSV.</li>
+                            <li>Then, upload your Intacct Template CSV.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="number-circle">2</span>
+                        <strong class="text-lg">Preview and Map:</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>Match the data fields from your file to the Intacct format.</li>
+                            <li>Review the mappings before finalizing.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="mb-8">
                 <h2 class="text-2xl font-bold mb-4">Upload CSV Files</h2>
                 <form id="uploadForm" class="space-y-4">
                     <div class="file-input">
                         <label for="dataFile" class="block font-bold mb-2">Data CSV:</label>
                         <div class="flex items-center border border-gray-300 rounded-md">
-                            <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
                             <label for="dataFile" class="file-input-label">Choose File</label>
-                            <input type="text" id="dataFileName" class="file-name flex-grow px-3" placeholder="No file chosen" readonly>
+                            <input type="file" id="dataFile" name="dataFile" accept=".csv" required class="hidden">
+                            <input type="text" id="dataFileName" class="file-name flex-grow px-3 border-0" value="No file chosen" disabled>
                         </div>
                     </div>
                     <div class="file-input">
                         <label for="templateFile" class="block font-bold mb-2">Intacct Template CSV:</label>
                         <div class="flex items-center border border-gray-300 rounded-md">
-                            <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
                             <label for="templateFile" class="file-input-label">Choose File</label>
-                            <input type="text" id="templateFileName" class="file-name flex-grow px-3" placeholder="No file chosen" readonly>
+                            <input type="file" id="templateFile" name="templateFile" accept=".csv" required class="hidden">
+                            <input type="text" id="templateFileName" class="file-name flex-grow px-3 border-0" value="No file chosen" disabled>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-black">Upload and Preview</button>
+                    <button type="submit" class="btn btn-black">
+                        Upload and Preview
+                    </button>
                 </form>
             </div>
 
