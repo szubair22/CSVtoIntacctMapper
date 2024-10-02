@@ -1,0 +1,12 @@
+{
+  "name": "csvtointacctmapper",
+  "version": "1.0.0",
+  "description": "This web application helps Sage Intacct users easily map their data to Sage Intacct's required format. The tool allows users to upload their data CSV and an Intacct template CSV, preview the contents, and generate a mapped CSV file that conforms to Intacct's specifications.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
