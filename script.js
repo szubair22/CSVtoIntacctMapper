@@ -6,14 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadSection = document.getElementById('downloadSection');
     const generateBtn = document.getElementById('generateBtn');
 
+    const dataFileInput = document.getElementById('dataFile');
+    const templateFileInput = document.getElementById('templateFile');
+    const dataFileName = document.getElementById('dataFileName');
+    const templateFileName = document.getElementById('templateFileName');
+
     let dataContent = '';
     let templateHeaders = [];
     let dataHeaders = [];
 
+    // Add event listeners for file input changes
+    dataFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, dataFileName);
+    });
+
+    templateFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, templateFileName);
+    });
+
+    // Function to update file name display
+    function updateFileName(fileInput, fileNameElement) {
+        if (fileInput.files.length > 0) {
+            fileNameElement.textContent = fileInput.files[0].name;
+        } else {
+            fileNameElement.textContent = 'No file chosen';
+        }
+    }
+
     uploadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const dataFile = document.getElementById('dataFile').files[0];
-        const templateFile = document.getElementById('templateFile').files[0];
+        const dataFile = dataFileInput.files[0];
+        const templateFile = templateFileInput.files[0];
 
         if (!dataFile || !templateFile) {
             alert('Please select both CSV files.');
