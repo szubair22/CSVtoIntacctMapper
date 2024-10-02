@@ -6,6 +6,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadSection = document.getElementById('downloadSection');
     const generateBtn = document.getElementById('generateBtn');
 
+    const dataFileInput = document.getElementById('dataFile');
+    const templateFileInput = document.getElementById('templateFile');
+    const dataFileName = document.getElementById('dataFileName');
+    const templateFileName = document.getElementById('templateFileName');
+
+    // Add event listeners for file input changes
+    dataFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, dataFileName);
+    });
+
+    templateFileInput.addEventListener('change', (e) => {
+        updateFileName(e.target, templateFileName);
+    });
+
+    function updateFileName(input, fileNameElement) {
+        if (input.files && input.files[0]) {
+            fileNameElement.textContent = input.files[0].name;
+        } else {
+            fileNameElement.textContent = 'No file chosen';
+        }
+    }
+
     let dataContent = '';
     let templateHeaders = [];
     let dataHeaders = [];
