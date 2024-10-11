@@ -63,7 +63,6 @@ h2 {
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.2s;
-    flex-shrink: 0;
 }
 
 .file-input-label:hover {
@@ -91,9 +90,6 @@ h2 {
     text-align: center;
     cursor: pointer;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-black {
@@ -177,6 +173,6 @@ h2 {
 }
 
 /* Increase spacing between elements */
-.mb-6 {
-    margin-bottom: 1.5rem;
+.mb-8 {
+    margin-bottom: 2rem;
 }
