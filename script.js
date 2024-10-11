@@ -88,26 +88,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createMappingForm(dataHeaders, templateHeaders) {
-        mappingForm.innerHTML = '';
+        mappingForm.innerHTML = `
+            <div class="mapping-header">
+                <div class="template-header">Template Headers</div>
+                <div class="data-header">Data Headers</div>
+            </div>
+        `;
+        
         templateHeaders.forEach(templateHeader => {
             const div = document.createElement('div');
-            div.className = 'mb-4';
+            div.className = 'mapping-row';
             div.innerHTML = `
-                <label for="${templateHeader}" class="block mb-2 font-bold">${templateHeader}:</label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="${templateHeader}_field" class="block mb-1">Field:</label>
-                        <select id="${templateHeader}_field" name="${templateHeader}_field" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">-- Select --</option>
-                            ${dataHeaders.map(dataHeader => `<option value="${dataHeader}">${dataHeader}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div>
-                        <label for="${templateHeader}_format" class="block mb-1">
-                            <input type="checkbox" id="${templateHeader}_format" name="${templateHeader}_format" class="mr-2">
-                            Format as decimal (up to 2 places)
-                        </label>
-                    </div>
+                <div class="template-field">${templateHeader}</div>
+                <div class="data-field">
+                    <select name="${templateHeader}_field" class="data-select">
+                        <option value="">-- Select --</option>
+                        ${dataHeaders.map(dataHeader => `<option value="${dataHeader}">${dataHeader}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="format-option">
+                    <label>
+                        <input type="checkbox" name="${templateHeader}_format">
+                        Format as decimal (up to 2 places)
+                    </label>
                 </div>
             `;
             mappingForm.appendChild(div);

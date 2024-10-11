@@ -112,3 +112,61 @@ h2 {
     padding-left: 20px;
     list-style-type: disc;
 }
+
+/* Add these styles at the end of your existing styles.css file */
+
+/* Mapping form styles */
+#mappingForm {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mapping-header {
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mapping-header .template-header,
+.mapping-header .data-header {
+    flex: 1;
+}
+
+.mapping-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.template-field,
+.data-field {
+    flex: 1;
+}
+
+.data-select {
+    width: 100%;
+    padding: 5px;
+}
+
+.format-option {
+    margin-left: 10px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .mapping-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .template-field,
+    .data-field,
+    .format-option {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .format-option {
+        margin-left: 0;
+    }
+}
