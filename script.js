@@ -1,155 +1,395 @@
+/* ============================================
+   IntacctMapper — Application Logic
+   ============================================ */
 document.addEventListener('DOMContentLoaded', () => {
-    const uploadForm = document.getElementById('uploadForm');
-    const previewSection = document.getElementById('previewSection');
-    const mappingSection = document.getElementById('mappingSection');
-    const mappingForm = document.getElementById('mappingForm');
+    // --- DOM refs ---
+    const uploadForm      = document.getElementById('uploadForm');
+    const uploadBtn       = document.getElementById('uploadBtn');
+    const dataFileInput   = document.getElementById('dataFile');
+    const templateFileInput = document.getElementById('templateFile');
+    const dataDropZone    = document.getElementById('dataDropZone');
+    const templateDropZone = document.getElementById('templateDropZone');
+    const dataFileNameEl  = document.getElementById('dataFileName');
+    const templateFileNameEl = document.getElementById('templateFileName');
+    const previewSection  = document.getElementById('previewSection');
+    const mappingSection  = document.getElementById('mappingSection');
     const downloadSection = document.getElementById('downloadSection');
-    const generateBtn = document.getElementById('generateBtn');
+    const dataPreviewEl   = document.getElementById('dataPreview');
+    const templatePreviewEl = document.getElementById('templatePreview');
+    const mappingForm     = document.getElementById('mappingForm');
+    const generateBtn     = document.getElementById('generateBtn');
+    const autoMapBtn      = document.getElementById('autoMapBtn');
+    const clearMapBtn     = document.getElementById('clearMapBtn');
+    const mappingCountEl  = document.getElementById('mappingCount');
+    const rowCountEl      = document.getElementById('rowCount');
 
-    let dataContent = '';
-    let templateHeaders = [];
+    // --- State ---
+    let dataRows = [];
     let dataHeaders = [];
+    let templateHeaders = [];
 
-    uploadForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const dataFile = document.getElementById('dataFile').files[0];
-        const templateFile = document.getElementById('templateFile').files[0];
+    // =========================================
+    // CSV Parser — handles quoted fields
+    // =========================================
+    function parseCSV(text) {
+        const rows = [];
+        let current = '';
+        let inQuotes = false;
+        const row = [];
 
-        if (!dataFile || !templateFile) {
-            alert('Please select both CSV files.');
-            return;
+        for (let i = 0; i < text.length; i++) {
+            const ch = text[i];
+            const next = text[i + 1];
+
+            if (inQuotes) {
+                if (ch === '"' && next === '"') {
+                    current += '"';
+                    i++;
+                } else if (ch === '"') {
+                    inQuotes = false;
+                } else {
+                    current += ch;
+                }
+            } else {
+                if (ch === '"') {
+                    inQuotes = true;
+                } else if (ch === ',') {
+                    row.push(current.trim());
+                    current = '';
+                } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+                    row.push(current.trim());
+                    if (row.length > 1 || row[0] !== '') rows.push([...row]);
+                    row.length = 0;
+                    current = '';
+                    if (ch === '\r') i++;
+                } else {
+                    current += ch;
+                }
+            }
         }
+        // Last row
+        row.push(current.trim());
+        if (row.length > 1 || row[0] !== '') rows.push([...row]);
 
-        const dataCSV = await readCSV(dataFile);
-        const templateCSV = await readCSV(templateFile);
+        return rows;
+    }
 
-        displayPreview(dataCSV, templateCSV);
-        createMappingForm(dataCSV[0], templateCSV[0]);
-        previewSection.classList.remove('hidden');
-        mappingSection.classList.remove('hidden');
-        downloadSection.classList.remove('hidden');
+    // =========================================
+    // File reading
+    // =========================================
+    async function readFileAsText(file) {
+        return file.text();
+    }
 
-        dataContent = dataCSV.slice(1).map(row => row.join(',')).join('\n');
-        templateHeaders = templateCSV[0];
-        dataHeaders = dataCSV[0];
+    // =========================================
+    // Drop zone UX
+    // =========================================
+    function setupDropZone(zone, input, nameEl) {
+        ['dragenter', 'dragover'].forEach(ev =>
+            zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('drag-over'); })
+        );
+        ['dragleave', 'drop'].forEach(ev =>
+            zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('drag-over'); })
+        );
+        zone.addEventListener('drop', e => {
+            const file = e.dataTransfer.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                input.files = e.dataTransfer.files;
+                markFile(zone, nameEl, file.name);
+                checkReady();
+            }
+        });
+        input.addEventListener('change', () => {
+            if (input.files[0]) {
+                markFile(zone, nameEl, input.files[0].name);
+                checkReady();
+            }
+        });
+    }
+
+    function markFile(zone, nameEl, name) {
+        zone.classList.add('has-file');
+        nameEl.textContent = name;
+    }
+
+    function checkReady() {
+        uploadBtn.disabled = !(dataFileInput.files[0] && templateFileInput.files[0]);
+    }
+
+    setupDropZone(dataDropZone, dataFileInput, dataFileNameEl);
+    setupDropZone(templateDropZone, templateFileInput, templateFileNameEl);
+
+    // =========================================
+    // Preview tabs
+    // =========================================
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const which = tab.dataset.tab;
+            dataPreviewEl.classList.toggle('hidden', which !== 'data');
+            templatePreviewEl.classList.toggle('hidden', which !== 'template');
+        });
     });
 
-    async function readCSV(file) {
-        const content = await file.text();
-        return content.split('\n').map(row => row.split(',').map(cell => cell.trim()));
-    }
+    // =========================================
+    // Upload & preview
+    // =========================================
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const dataFile = dataFileInput.files[0];
+        const templateFile = templateFileInput.files[0];
+        if (!dataFile || !templateFile) return;
 
-    function displayPreview(dataCSV, templateCSV) {
-        const dataPreview = document.getElementById('dataPreview');
-        const templatePreview = document.getElementById('templatePreview');
+        const [dataText, templateText] = await Promise.all([
+            readFileAsText(dataFile),
+            readFileAsText(templateFile)
+        ]);
 
-        dataPreview.innerHTML = createTable(dataCSV[0], dataCSV.slice(1, 6));
-        templatePreview.innerHTML = createTable(templateCSV[0], templateCSV.slice(1, 6));
-    }
+        const dataParsed = parseCSV(dataText);
+        const templateParsed = parseCSV(templateText);
 
-    function createTable(headers, rows) {
-        let table = '<table class="min-w-full divide-y divide-gray-200"><thead><tr>';
-        headers.forEach(header => {
-            table += `<th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${header}</th>`;
+        if (dataParsed.length < 2) { showToast('Data CSV must have a header row and at least one data row.'); return; }
+        if (templateParsed.length < 1) { showToast('Template CSV must have at least a header row.'); return; }
+
+        dataHeaders = dataParsed[0];
+        dataRows = dataParsed.slice(1);
+        templateHeaders = templateParsed[0];
+
+        // Render previews
+        dataPreviewEl.innerHTML = buildTable(dataHeaders, dataRows.slice(0, 5));
+        templatePreviewEl.innerHTML = buildTable(templateHeaders, templateParsed.slice(1, 6));
+
+        // Build mapping form
+        buildMappingForm();
+
+        // Show sections with animation
+        reveal(previewSection);
+        reveal(mappingSection);
+        reveal(downloadSection);
+
+        // Update row count
+        rowCountEl.textContent = `Your mapped CSV will contain ${dataRows.length.toLocaleString()} row${dataRows.length === 1 ? '' : 's'}.`;
+
+        // Scroll to preview
+        previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        showToast('Files parsed successfully!');
+    });
+
+    // =========================================
+    // Table builder
+    // =========================================
+    function buildTable(headers, rows) {
+        const esc = s => {
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        };
+        let html = '<table><thead><tr>';
+        headers.forEach(h => { html += `<th>${esc(h)}</th>`; });
+        html += '</tr></thead><tbody>';
+        rows.forEach(row => {
+            html += '<tr>';
+            headers.forEach((_, i) => { html += `<td>${esc(row[i] || '')}</td>`; });
+            html += '</tr>';
         });
-        table += '</tr></thead><tbody>';
-        rows.forEach((row, index) => {
-            table += `<tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">`;
-            row.forEach(cell => {
-                table += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cell}</td>`;
-            });
-            table += '</tr>';
-        });
-        table += '</tbody></table>';
-        return table;
+        html += '</tbody></table>';
+        return html;
     }
 
-    function createMappingForm(dataHeaders, templateHeaders) {
+    // =========================================
+    // Mapping form
+    // =========================================
+    function buildMappingForm() {
         mappingForm.innerHTML = '';
-        templateHeaders.forEach(templateHeader => {
-            const div = document.createElement('div');
-            div.className = 'mb-4';
-            div.innerHTML = `
-                <label for="${templateHeader}" class="block mb-2 font-bold">${templateHeader}:</label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="${templateHeader}_field" class="block mb-1">Field:</label>
-                        <select id="${templateHeader}_field" name="${templateHeader}_field" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">-- Select --</option>
-                            ${dataHeaders.map(dataHeader => `<option value="${dataHeader}">${dataHeader}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div>
-                        <label for="${templateHeader}_format" class="block mb-1">
-                            <input type="checkbox" id="${templateHeader}_format" name="${templateHeader}_format" class="mr-2">
-                            Format as decimal (up to 2 places)
-                        </label>
-                    </div>
+        templateHeaders.forEach(tHeader => {
+            const row = document.createElement('div');
+            row.className = 'mapping-row';
+            row.innerHTML = `
+                <div class="mapping-target">
+                    <span class="mapping-target-label">${escHTML(tHeader)}</span>
+                </div>
+                <div class="mapping-arrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </div>
+                <div>
+                    <select class="mapping-select" data-target="${escAttr(tHeader)}">
+                        <option value="">— skip —</option>
+                        ${dataHeaders.map(dh => `<option value="${escAttr(dh)}">${escHTML(dh)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mapping-format">
+                    <input type="checkbox" id="fmt_${escAttr(tHeader)}" data-target="${escAttr(tHeader)}">
+                    <label for="fmt_${escAttr(tHeader)}">Decimal</label>
                 </div>
             `;
-            mappingForm.appendChild(div);
+            mappingForm.appendChild(row);
         });
+
+        // Update count on change
+        mappingForm.querySelectorAll('.mapping-select').forEach(sel => {
+            sel.addEventListener('change', () => {
+                sel.classList.toggle('mapped', sel.value !== '');
+                updateMappingCount();
+            });
+        });
+
+        updateMappingCount();
     }
 
+    function updateMappingCount() {
+        const total = templateHeaders.length;
+        const mapped = mappingForm.querySelectorAll('.mapping-select.mapped').length;
+        mappingCountEl.textContent = `${mapped} of ${total} mapped`;
+    }
+
+    // =========================================
+    // Auto-map (fuzzy match by normalized name)
+    // =========================================
+    autoMapBtn.addEventListener('click', () => {
+        const normalize = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const selects = mappingForm.querySelectorAll('.mapping-select');
+        let mapped = 0;
+
+        selects.forEach(sel => {
+            const target = normalize(sel.dataset.target);
+            let bestMatch = '';
+            let bestScore = 0;
+
+            for (const opt of sel.options) {
+                if (!opt.value) continue;
+                const norm = normalize(opt.value);
+                // Exact match
+                if (norm === target) { bestMatch = opt.value; bestScore = 100; break; }
+                // Contains
+                if (norm.includes(target) || target.includes(norm)) {
+                    const score = Math.min(norm.length, target.length) / Math.max(norm.length, target.length) * 80;
+                    if (score > bestScore) { bestScore = score; bestMatch = opt.value; }
+                }
+            }
+
+            if (bestScore >= 40) {
+                sel.value = bestMatch;
+                sel.classList.add('mapped');
+                mapped++;
+            }
+        });
+
+        updateMappingCount();
+        showToast(`Auto-mapped ${mapped} column${mapped === 1 ? '' : 's'}`);
+    });
+
+    // =========================================
+    // Clear all mappings
+    // =========================================
+    clearMapBtn.addEventListener('click', () => {
+        mappingForm.querySelectorAll('.mapping-select').forEach(sel => {
+            sel.value = '';
+            sel.classList.remove('mapped');
+        });
+        mappingForm.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+        updateMappingCount();
+        showToast('Mappings cleared');
+    });
+
+    // =========================================
+    // Generate & download
+    // =========================================
     generateBtn.addEventListener('click', () => {
         const mapping = {};
-        const formData = new FormData(mappingForm);
-        
-        templateHeaders.forEach(header => {
-            const field = formData.get(`${header}_field`);
-            const format = formData.get(`${header}_format`) === 'on';
-            
-            if (field) {
-                mapping[header] = {
-                    field: field,
-                    format: format
+        mappingForm.querySelectorAll('.mapping-select').forEach(sel => {
+            if (sel.value) {
+                const target = sel.dataset.target;
+                const fmtCb = mappingForm.querySelector(`input[type="checkbox"][data-target="${CSS.escape(target)}"]`);
+                mapping[target] = {
+                    field: sel.value,
+                    format: fmtCb ? fmtCb.checked : false
                 };
             }
         });
 
-        const mappedCSV = generateMappedCSV(mapping, dataContent, templateHeaders, dataHeaders);
-        downloadCSV(mappedCSV, 'mapped_data.csv');
-    });
+        if (Object.keys(mapping).length === 0) {
+            showToast('Map at least one column before downloading.');
+            return;
+        }
 
-    function generateMappedCSV(mapping, dataContent, templateHeaders, dataHeaders) {
-        const dataRows = dataContent.split('\n').map(row => row.split(','));
-        const output = [templateHeaders];
-
+        const output = [templateHeaders.map(h => quoteCSV(h))];
         dataRows.forEach(row => {
-            const mappedRow = templateHeaders.map(header => {
-                if (header in mapping) {
-                    const mapInfo = mapping[header];
-                    const dataIndex = dataHeaders.indexOf(mapInfo.field);
-                    let value = row[dataIndex] || '';
-                    if (mapInfo.format) {
-                        value = formatDecimal(value);
-                    }
-                    return value;
+            const mapped = templateHeaders.map(header => {
+                if (mapping[header]) {
+                    const idx = dataHeaders.indexOf(mapping[header].field);
+                    let val = idx >= 0 ? (row[idx] || '') : '';
+                    if (mapping[header].format) val = formatDecimal(val);
+                    return quoteCSV(val);
                 }
                 return '';
             });
-            output.push(mappedRow);
+            output.push(mapped);
         });
 
-        return output.map(row => row.join(',')).join('\n');
-    }
+        const csvString = output.map(r => r.join(',')).join('\r\n');
+        downloadBlob(csvString, 'mapped_data.csv');
+        showToast('Download started!');
+    });
 
     function formatDecimal(value) {
         const num = parseFloat(value);
         return isNaN(num) ? value : num.toFixed(2);
     }
 
-    function downloadCSV(content, fileName) {
-        const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', fileName);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    function quoteCSV(val) {
+        if (val.includes(',') || val.includes('"') || val.includes('\n')) {
+            return '"' + val.replace(/"/g, '""') + '"';
         }
+        return val;
+    }
+
+    function downloadBlob(content, filename) {
+        const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    }
+
+    // =========================================
+    // Helpers
+    // =========================================
+    function escHTML(s) {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+    function escAttr(s) {
+        return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;');
+    }
+
+    function reveal(el) {
+        el.classList.remove('hidden');
+        el.style.animation = 'none';
+        el.offsetHeight; // reflow
+        el.style.animation = '';
+    }
+
+    // =========================================
+    // Toast
+    // =========================================
+    let toastEl = document.querySelector('.toast');
+    if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.className = 'toast';
+        document.body.appendChild(toastEl);
+    }
+    let toastTimeout;
+    function showToast(msg) {
+        clearTimeout(toastTimeout);
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        toastTimeout = setTimeout(() => toastEl.classList.remove('show'), 2500);
     }
 });

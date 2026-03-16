@@ -1,0 +1,28 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Replit
+.cache/
+.local/
+.pythonlibs/
+.upm/
+__pycache__/
+.replit
+replit.nix
+
+# Python
+*.pyc
+*.egg-info/
+venv/
+env/
+poetry.lock
+
+# Node
+node_modules/
