@@ -9,7 +9,6 @@ Map any CSV to Sage Intacct's required format in seconds. 100% client-side — y
 - Drag-and-drop file upload for data CSV and Intacct template CSV
 - Tabbed preview of both files before mapping
 - Visual column mapping with auto-map (fuzzy matching)
-- Decimal formatting option per column
 - Proper CSV parsing (handles quoted fields, commas in values)
 - One-click download of the mapped CSV
 - Fully static — hosted on GitHub Pages, no backend required

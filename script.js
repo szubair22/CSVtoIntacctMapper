@@ -219,10 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${dataHeaders.map(dh => `<option value="${escAttr(dh)}">${escHTML(dh)}</option>`).join('')}
                     </select>
                 </div>
-                <div class="mapping-format">
-                    <input type="checkbox" id="fmt_${escAttr(tHeader)}" data-target="${escAttr(tHeader)}">
-                    <label for="fmt_${escAttr(tHeader)}">Decimal</label>
-                </div>
             `;
             mappingForm.appendChild(row);
         });
@@ -288,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sel.value = '';
             sel.classList.remove('mapped');
         });
-        mappingForm.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
         updateMappingCount();
         showToast('Mappings cleared');
     });
@@ -300,12 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mapping = {};
         mappingForm.querySelectorAll('.mapping-select').forEach(sel => {
             if (sel.value) {
-                const target = sel.dataset.target;
-                const fmtCb = mappingForm.querySelector(`input[type="checkbox"][data-target="${CSS.escape(target)}"]`);
-                mapping[target] = {
-                    field: sel.value,
-                    format: fmtCb ? fmtCb.checked : false
-                };
+                mapping[sel.dataset.target] = sel.value;
             }
         });
 
@@ -318,9 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dataRows.forEach(row => {
             const mapped = templateHeaders.map(header => {
                 if (mapping[header]) {
-                    const idx = dataHeaders.indexOf(mapping[header].field);
-                    let val = idx >= 0 ? (row[idx] || '') : '';
-                    if (mapping[header].format) val = formatDecimal(val);
+                    const idx = dataHeaders.indexOf(mapping[header]);
+                    const val = idx >= 0 ? (row[idx] || '') : '';
                     return quoteCSV(val);
                 }
                 return '';
@@ -332,11 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBlob(csvString, 'mapped_data.csv');
         showToast('Download started!');
     });
-
-    function formatDecimal(value) {
-        const num = parseFloat(value);
-        return isNaN(num) ? value : num.toFixed(2);
-    }
 
     function quoteCSV(val) {
         if (val.includes(',') || val.includes('"') || val.includes('\n')) {
