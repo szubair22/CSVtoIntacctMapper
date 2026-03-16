@@ -37,6 +37,39 @@ cd CSVtoIntacctMapper
 npx serve .
 ```
 
+## Testing
+
+End-to-end tests are run with [Playwright](https://playwright.dev/) (Chromium, headless). The test suite covers the full user workflow:
+
+| Area | What's tested |
+|------|---------------|
+| Page load | Title, heading, all key DOM elements present |
+| Initial state | Upload button disabled, preview/mapping/download sections hidden |
+| File upload | Drop zone states, file name display, button enables after both files selected |
+| CSV parsing | Headers, row count, RFC-compliant quoted field handling (`"Carol, Jr."`) |
+| Tab switching | Source Data / Intacct Template preview tabs toggle correctly |
+| Mapping form | Correct number of rows, select options populated, live counter |
+| Manual mapping | Selection applies `.mapped` class, counter updates |
+| Auto-map | Fuzzy name matching (e.g. `EMAIL` → `Email`) |
+| Download | Full CSV output validated — headers, decimal formatting, quoted fields, empty unmapped columns |
+| Toast notifications | Notification element rendered |
+| Console errors | Zero JS errors on page load |
+
+To run locally:
+
+```bash
+# Start a local server
+python3 -m http.server 8099 &
+
+# Install Playwright and run tests
+npm install playwright
+node e2e-test.mjs
+```
+
+## Contributing
+
+The `main` branch is protected — all changes require a pull request with at least one approving review. Fork the repo, create a feature branch, and open a PR.
+
 ## License
 
 MIT
