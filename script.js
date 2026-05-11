@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // CSV Parser — handles quoted fields
     // =========================================
     function parseCSV(text) {
+        // Strip UTF-8 BOM so the first header isn't corrupted by an invisible char.
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
         const rows = [];
         let current = '';
         let inQuotes = false;
@@ -56,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (ch === ',') {
                     row.push(current.trim());
                     current = '';
-                } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+                } else if (ch === '\n' || ch === '\r') {
                     row.push(current.trim());
                     if (row.length > 1 || row[0] !== '') rows.push([...row]);
                     row.length = 0;
                     current = '';
-                    if (ch === '\r') i++;
+                    if (ch === '\r' && next === '\n') i++;
                 } else {
                     current += ch;
                 }
@@ -201,8 +204,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================
     // Mapping form
     // =========================================
+    // Excel-style column letter: 0 -> A, 25 -> Z, 26 -> AA.
+    function colLetter(i) {
+        let s = '';
+        i = i + 1;
+        while (i > 0) {
+            const r = (i - 1) % 26;
+            s = String.fromCharCode(65 + r) + s;
+            i = Math.floor((i - 1) / 26);
+        }
+        return s;
+    }
+
+    // Label a source column unambiguously even when the header is blank or
+    // duplicated. The select's value is the column INDEX (as a string) so
+    // duplicate/blank names can't collide.
+    function sourceOptionLabel(name, idx) {
+        const letter = colLetter(idx);
+        if (!name) return `(Column ${letter} — unnamed)`;
+        const dupes = dataHeaders.reduce((n, h) => n + (h === name ? 1 : 0), 0);
+        return dupes > 1 ? `${name} [Column ${letter}]` : name;
+    }
+
     function buildMappingForm() {
-        mappingForm.innerHTML = '';
+        mappingForm.textContent = '';
+        const sourceOptions = dataHeaders
+            .map((dh, i) => `<option value="${i}">${escHTML(sourceOptionLabel(dh, i))}</option>`)
+            .join('');
         templateHeaders.forEach(tHeader => {
             const row = document.createElement('div');
             row.className = 'mapping-row';
@@ -216,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div>
                     <select class="mapping-select" data-target="${escAttr(tHeader)}">
                         <option value="">— skip —</option>
-                        ${dataHeaders.map(dh => `<option value="${escAttr(dh)}">${escHTML(dh)}</option>`).join('')}
+                        ${sourceOptions}
                     </select>
                 </div>
             `;
@@ -253,17 +281,21 @@ document.addEventListener('DOMContentLoaded', () => {
             let bestMatch = '';
             let bestScore = 0;
 
-            for (const opt of sel.options) {
-                if (!opt.value) continue;
-                const norm = normalize(opt.value);
-                // Exact match
-                if (norm === target) { bestMatch = opt.value; bestScore = 100; break; }
-                // Contains
+            // Match by the source HEADER NAME (not by the option value, which is
+            // now the column index). Skip blank-named source columns.
+            dataHeaders.forEach((dh, i) => {
+                if (!dh) return;
+                const norm = normalize(dh);
+                if (!norm) return;
+                if (norm === target) {
+                    if (bestScore < 100) { bestMatch = String(i); bestScore = 100; }
+                    return;
+                }
                 if (norm.includes(target) || target.includes(norm)) {
                     const score = Math.min(norm.length, target.length) / Math.max(norm.length, target.length) * 80;
-                    if (score > bestScore) { bestScore = score; bestMatch = opt.value; }
+                    if (score > bestScore) { bestScore = score; bestMatch = String(i); }
                 }
-            }
+            });
 
             if (bestScore >= 40) {
                 sel.value = bestMatch;
@@ -307,12 +339,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const output = [templateHeaders.map(h => quoteCSV(h))];
         dataRows.forEach(row => {
             const mapped = templateHeaders.map(header => {
-                if (mapping[header]) {
-                    const idx = dataHeaders.indexOf(mapping[header]);
-                    const val = idx >= 0 ? (row[idx] || '') : '';
-                    return quoteCSV(val);
-                }
-                return '';
+                const sourceIdx = mapping[header];
+                if (sourceIdx === undefined) return '';
+                const idx = parseInt(sourceIdx, 10);
+                if (!Number.isInteger(idx) || idx < 0 || idx >= dataHeaders.length) return '';
+                return quoteCSV(row[idx] || '');
             });
             output.push(mapped);
         });
